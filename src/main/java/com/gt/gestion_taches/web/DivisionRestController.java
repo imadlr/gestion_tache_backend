@@ -1,8 +1,10 @@
 package com.gt.gestion_taches.web;
 
+import com.gt.gestion_taches.dtos.DivisionDTO;
 import com.gt.gestion_taches.dtos.PageTaskDTO;
 import com.gt.gestion_taches.enums.TaskState;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
+import com.gt.gestion_taches.servicesImpl.DivisionServiceImpl;
 import com.gt.gestion_taches.servicesImpl.TaskServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class DivisionRestController {
     private TaskServiceImpl taskService;
+    private DivisionServiceImpl divisionService;
+
+    @GetMapping("/getByUsername")
+    public DivisionDTO getDivisionByUsername(@RequestParam String username) throws UserNotFoundException {
+        return divisionService.getDivisionDTO(username);
+    }
 
     @GetMapping("/completedTasks/{divisionId}")
     public PageTaskDTO getCompletedTasks(@PathVariable Long divisionId,

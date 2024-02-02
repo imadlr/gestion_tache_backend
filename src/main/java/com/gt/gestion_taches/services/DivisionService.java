@@ -11,6 +11,8 @@ public interface DivisionService {
 
     Division getDivision(Long divisionId) throws UserNotFoundException;
 
+    DivisionDTO getDivisionDTO(String username) throws UserNotFoundException;
+
     DivisionDTO saveDivision(DivisionDTO divisionDTO) throws UserNameExistsException;
 
     DivisionDTO updateDivision(DivisionDTO divisionDTO) throws UserNotFoundException;

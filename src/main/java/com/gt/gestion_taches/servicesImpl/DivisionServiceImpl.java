@@ -1,6 +1,5 @@
 package com.gt.gestion_taches.servicesImpl;
 
-import com.gt.gestion_taches.Security.JwtFilter;
 import com.gt.gestion_taches.dtos.*;
 import com.gt.gestion_taches.entities.Division;
 import com.gt.gestion_taches.entities.UserAccount;
@@ -47,6 +46,18 @@ public class DivisionServiceImpl implements DivisionService {
             throw new UserNotFoundException("Division N'Est Pas Trouvé");
         } else {
             return division;
+        }
+    }
+
+    @Override
+    public DivisionDTO getDivisionDTO(String username) throws UserNotFoundException {
+        UserAccount userAccount = userAccountRepository.findByUsername(username);
+        if (userAccount == null) throw new UserNotFoundException("User Not Found");
+        Division division = divisionRepository.findById(userAccount.getUser().getId()).orElse(null);
+        if (division == null) {
+            throw new UserNotFoundException("Division N'Est Pas Trouvé");
+        } else {
+            return mapper.fromDivision(division);
         }
     }
 
