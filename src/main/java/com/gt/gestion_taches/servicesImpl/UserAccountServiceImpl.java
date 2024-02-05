@@ -6,6 +6,7 @@ import com.gt.gestion_taches.repositories.UserAccountRepository;
 import com.gt.gestion_taches.services.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class UserAccountServiceImpl implements UserAccountService {
             Map<String, String> token = new HashMap<>();
             token.put("token", jwtUtils.generateToken(userAccount.getUsername(), userAccount.getRole()));
             return token;
+        } catch (BadCredentialsException e) {
+            e.printStackTrace();
+            throw new BadCredentialsException("Les identifications sont erronées", e);
         } catch (Exception e) {
             e.printStackTrace();
         }

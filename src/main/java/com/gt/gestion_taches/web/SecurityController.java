@@ -4,6 +4,7 @@ import com.gt.gestion_taches.services.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -15,7 +16,9 @@ public class SecurityController {
 
     @PostMapping(path = "/login")
     public Map<String, String> login(@RequestBody Map<String, String> requestMap) {
-        return userAccountService.login(requestMap);
+
+            return userAccountService.login(requestMap);
+
     }
 
 }
