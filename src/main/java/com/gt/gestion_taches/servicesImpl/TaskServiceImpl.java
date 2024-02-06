@@ -2,7 +2,6 @@ package com.gt.gestion_taches.servicesImpl;
 
 import com.gt.gestion_taches.dtos.CountTaskByStateDTO;
 import com.gt.gestion_taches.dtos.TaskDTO;
-import com.gt.gestion_taches.dtos.PageTaskDTO;
 import com.gt.gestion_taches.entities.Division;
 import com.gt.gestion_taches.entities.Task;
 import com.gt.gestion_taches.enums.TaskState;
@@ -26,40 +25,22 @@ public class TaskServiceImpl implements TaskService {
     private DivisionServiceImpl divisionService;
 
     @Override
-    public PageTaskDTO getTasksByState(TaskState state, int page, int size) {
-        Page<Task> tasks = taskRepository.findTasksByState(state, PageRequest.of(page, size));
-        List<TaskDTO> taskDTOS = tasks.getContent().stream().map(t -> mapper.fromTask(t)).toList();
-        PageTaskDTO pageTaskDTO = new PageTaskDTO();
-        pageTaskDTO.setTaskDTOS(taskDTOS);
-        pageTaskDTO.setTotalPages(tasks.getTotalPages());
-        pageTaskDTO.setCurrentPage(page);
-        pageTaskDTO.setPageSize(size);
-        return pageTaskDTO;
+    public List<TaskDTO> getTasksByState(TaskState state) {
+        List<Task> tasks = taskRepository.findTasksByState(state);
+       return tasks.stream().map(t -> mapper.fromTask(t)).toList();
     }
 
     @Override
-    public PageTaskDTO getByStateAndObjectContains(TaskState state, String keyword, int page, int size) {
-        Page<Task> tasks = taskRepository.findByStateAndObjectContains(state, keyword, PageRequest.of(page, size));
-        List<TaskDTO> taskDTOS = tasks.getContent().stream().map(t -> mapper.fromTask(t)).toList();
-        PageTaskDTO pageTaskDTO = new PageTaskDTO();
-        pageTaskDTO.setTaskDTOS(taskDTOS);
-        pageTaskDTO.setTotalPages(tasks.getTotalPages());
-        pageTaskDTO.setCurrentPage(page);
-        pageTaskDTO.setPageSize(size);
-        return pageTaskDTO;
+    public List<TaskDTO> getByStateAndObjectContains(TaskState state, String keyword) {
+        List<Task> tasks = taskRepository.findByStateAndObjectContains(state, keyword);
+       return tasks.stream().map(t -> mapper.fromTask(t)).toList();
     }
 
     @Override
-    public PageTaskDTO getByDivisionIdAndStateAndObjectContains(Long divisionId, TaskState state, String keyword, int page, int size) throws UserNotFoundException {
+    public List<TaskDTO> getByDivisionIdAndStateAndObjectContains(Long divisionId, TaskState state, String keyword) throws UserNotFoundException {
         Division division = divisionService.getDivision(divisionId);
-        Page<Task> tasks = taskRepository.findByDivisionAndStateAndObjectContains(division, state, keyword, PageRequest.of(page, size));
-        List<TaskDTO> taskDTOS = tasks.getContent().stream().map(t -> mapper.fromTask(t)).toList();
-        PageTaskDTO pageTaskDTO = new PageTaskDTO();
-        pageTaskDTO.setTaskDTOS(taskDTOS);
-        pageTaskDTO.setTotalPages(tasks.getTotalPages());
-        pageTaskDTO.setCurrentPage(page);
-        pageTaskDTO.setPageSize(size);
-        return pageTaskDTO;
+        List<Task> tasks = taskRepository.findByDivisionAndStateAndObjectContains(division, state, keyword);
+        return tasks.stream().map(t -> mapper.fromTask(t)).toList();
     }
 
     @Override

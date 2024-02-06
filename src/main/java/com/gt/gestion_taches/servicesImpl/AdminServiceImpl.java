@@ -1,7 +1,6 @@
 package com.gt.gestion_taches.servicesImpl;
 
 import com.gt.gestion_taches.dtos.AdminDTO;
-import com.gt.gestion_taches.dtos.PageAdminDTO;
 import com.gt.gestion_taches.dtos.UserAccountDTO;
 import com.gt.gestion_taches.entities.Admin;
 import com.gt.gestion_taches.entities.UserAccount;
@@ -24,19 +23,6 @@ public class AdminServiceImpl implements AdminService {
     private UserAccountRepository userAccountRepository;
     private MapperServiceImpl mapper;
     private GenerateIdService generateIdService;
-
-
-    @Override
-    public PageAdminDTO getAdmins(int page, int size) {
-        Page<Admin> admins = adminRepository.findAll(PageRequest.of(page, size));
-        List<AdminDTO> adminDTOS = admins.getContent().stream().map(admin -> mapper.fromAdmin(admin)).toList();
-        PageAdminDTO pageAdminDTO = new PageAdminDTO();
-        pageAdminDTO.setAdminDTOS(adminDTOS);
-        pageAdminDTO.setPageSize(size);
-        pageAdminDTO.setCurrentPage(page);
-        pageAdminDTO.setTotalPages(admins.getTotalPages());
-        return pageAdminDTO;
-    }
 
     @Override
     public List<AdminDTO> getByCniContains(String keyword) {

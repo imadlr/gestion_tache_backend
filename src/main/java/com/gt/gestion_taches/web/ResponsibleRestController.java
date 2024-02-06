@@ -2,7 +2,7 @@ package com.gt.gestion_taches.web;
 
 import com.gt.gestion_taches.dtos.AgendaDTO;
 import com.gt.gestion_taches.dtos.CountTaskByStateDTO;
-import com.gt.gestion_taches.dtos.PageTaskDTO;
+import com.gt.gestion_taches.dtos.TaskDTO;
 import com.gt.gestion_taches.enums.TaskState;
 import com.gt.gestion_taches.exceptions.NoAgendaFoundException;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
@@ -50,24 +50,18 @@ public class ResponsibleRestController {
     }
 
     @GetMapping("/completedTasks")
-    public PageTaskDTO getCompletedTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword,
-                                         @RequestParam(name = "page", defaultValue = "0") int page,
-                                         @RequestParam(name = "size", defaultValue = "10") int size) {
-        return taskService.getByStateAndObjectContains(TaskState.TERMINEE, keyword, page, size);
+    public List<TaskDTO> getCompletedTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+        return taskService.getByStateAndObjectContains(TaskState.TERMINEE, keyword);
     }
 
     @GetMapping("/currentTasks")
-    public PageTaskDTO getCurrentTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword,
-                                       @RequestParam(name = "page", defaultValue = "0") int page,
-                                       @RequestParam(name = "size", defaultValue = "10") int size) {
-        return taskService.getByStateAndObjectContains(TaskState.EN_ATTENTE, keyword, page, size);
+    public List<TaskDTO> getCurrentTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+        return taskService.getByStateAndObjectContains(TaskState.EN_ATTENTE, keyword);
     }
 
     @GetMapping("/lateTasks")
-    public PageTaskDTO getLateTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword,
-                                    @RequestParam(name = "page", defaultValue = "0") int page,
-                                    @RequestParam(name = "size", defaultValue = "10") int size) {
-        return taskService.getByStateAndObjectContains(TaskState.EN_RETARD, keyword, page, size);
+    public List<TaskDTO> getLateTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+        return taskService.getByStateAndObjectContains(TaskState.EN_RETARD, keyword);
     }
 
 }

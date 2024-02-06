@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ResponsibleRepository extends JpaRepository<Responsible,Long> {
-    Page<Responsible> findByCniContains(String keyword, Pageable pageable);
+    List<Responsible> findByCniContains(String keyword);
 }

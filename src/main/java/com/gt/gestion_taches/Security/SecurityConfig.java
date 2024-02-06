@@ -22,19 +22,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
 
     private JwtFilter jwtFilter;
-
     @Bean
     public UserDetailsService getUserDetailsService() {
         return new UserDetailsServiceImpl();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();

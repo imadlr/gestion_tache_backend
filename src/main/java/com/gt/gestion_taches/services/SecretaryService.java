@@ -1,11 +1,12 @@
 package com.gt.gestion_taches.services;
 
-import com.gt.gestion_taches.dtos.PageSecretaryDTO;
 import com.gt.gestion_taches.dtos.SecretaryDTO;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
 
+import java.util.List;
+
 public interface SecretaryService {
-    PageSecretaryDTO getByCniContains(String keyword, int page, int size);
+    List<SecretaryDTO> getByCniContains(String keyword);
 
     SecretaryDTO saveSecretary(SecretaryDTO secretaryDTO) throws UserNameExistsException;
 

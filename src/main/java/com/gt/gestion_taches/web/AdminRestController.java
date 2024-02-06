@@ -10,6 +10,8 @@ import com.gt.gestion_taches.servicesImpl.TaskServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/admin")
 @AllArgsConstructor
@@ -21,23 +23,23 @@ public class AdminRestController {
     private SecretaryServiceImpl secretaryService;
 
     @GetMapping("/currentTasks")
-    public PageTaskDTO getCurrentTasks(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
-        return taskService.getTasksByState(TaskState.EN_ATTENTE, page, size);
+    public List<TaskDTO> getCurrentTasks() {
+        return taskService.getTasksByState(TaskState.EN_ATTENTE);
     }
 
     @GetMapping("/completedTasks")
-    public PageTaskDTO getCompletedTasks(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
-        return taskService.getTasksByState(TaskState.TERMINEE, page, size);
+    public List<TaskDTO> getCompletedTasks() {
+        return taskService.getTasksByState(TaskState.TERMINEE);
     }
 
     @GetMapping("/lateTasks")
-    public PageTaskDTO getLateTasks(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
-        return taskService.getTasksByState(TaskState.EN_RETARD, page, size);
+    public List<TaskDTO> getLateTasks() {
+        return taskService.getTasksByState(TaskState.EN_RETARD);
     }
 
     @GetMapping("/divisions")
-    public PageDivisionDTO getDivisions(@RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
-        return divisionService.getByCniContains(keyword, page, size);
+    public List<DivisionDTO> getDivisions(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+        return divisionService.getByCniContains(keyword);
     }
 
     @PostMapping("/saveDivision")
@@ -56,8 +58,8 @@ public class AdminRestController {
     }
 
     @GetMapping("/responsibles")
-    public PageResponsibleDTO getResponsibles(@RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
-        return responsibleService.getByCniContains(keyword, page, size);
+    public List<ResponsibleDTO> getResponsibles(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+        return responsibleService.getByCniContains(keyword);
     }
 
     @PostMapping("/saveResponsible")
@@ -76,8 +78,8 @@ public class AdminRestController {
     }
 
     @GetMapping("/secretaries")
-    public PageSecretaryDTO getSecretaries(@RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
-        return secretaryService.getByCniContains(keyword, page, size);
+    public List<SecretaryDTO> getSecretaries(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+        return secretaryService.getByCniContains(keyword);
     }
 
     @PostMapping("/saveSecretary")

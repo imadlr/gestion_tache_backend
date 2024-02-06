@@ -26,15 +26,9 @@ public class SecretaryServiceImpl implements SecretaryService {
     private GenerateIdService generateIdService;
 
     @Override
-    public PageSecretaryDTO getByCniContains(String keyword, int page, int size) {
-        Page<Secretary> secretaries = secretaryRepository.findByCniContains(keyword, PageRequest.of(page, size));
-        List<SecretaryDTO> secretaryDTOS = secretaries.getContent().stream().map(sec -> mapper.fromSecretary(sec)).toList();
-        PageSecretaryDTO pageSecretaryDTO = new PageSecretaryDTO();
-        pageSecretaryDTO.setSecretaryDTOS(secretaryDTOS);
-        pageSecretaryDTO.setPageSize(size);
-        pageSecretaryDTO.setCurrentPage(page);
-        pageSecretaryDTO.setTotalPages(secretaries.getTotalPages());
-        return pageSecretaryDTO;
+    public List<SecretaryDTO> getByCniContains(String keyword) {
+        List<Secretary> secretaries = secretaryRepository.findByCniContains(keyword);
+        return secretaries.stream().map(sec -> mapper.fromSecretary(sec)).toList();
     }
 
     @Override

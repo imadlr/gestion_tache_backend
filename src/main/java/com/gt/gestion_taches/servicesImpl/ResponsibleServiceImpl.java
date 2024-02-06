@@ -27,15 +27,9 @@ public class ResponsibleServiceImpl implements ResponsibleService {
     private GenerateIdService generateIdService;
 
     @Override
-    public PageResponsibleDTO getByCniContains(String keyword, int page, int size) {
-        Page<Responsible> responsibles = responsibleRepository.findByCniContains(keyword, PageRequest.of(page, size));
-        List<ResponsibleDTO> responsibleDTOS = responsibles.getContent().stream().map(responsible -> mapper.fromResponsible(responsible)).toList();
-        PageResponsibleDTO pageResponsibleDTO = new PageResponsibleDTO();
-        pageResponsibleDTO.setResponsibleDTOS(responsibleDTOS);
-        pageResponsibleDTO.setPageSize(size);
-        pageResponsibleDTO.setCurrentPage(page);
-        pageResponsibleDTO.setTotalPages(responsibles.getTotalPages());
-        return pageResponsibleDTO;
+    public List<ResponsibleDTO> getByCniContains(String keyword) {
+        List<Responsible> responsibles = responsibleRepository.findByCniContains(keyword);
+        return responsibles.stream().map(responsible -> mapper.fromResponsible(responsible)).toList();
     }
 
     @Override

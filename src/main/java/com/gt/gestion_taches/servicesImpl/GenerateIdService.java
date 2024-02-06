@@ -46,18 +46,4 @@ public class GenerateIdService {
         return getMaxIdAmongEntities(division.getClass(), responsible.getClass(), admin.getClass(), secretary.getClass()) + 1;
     }
 
-
- /*   public Long generateId(Class<?> entityClass) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> query = cb.createQuery(Long.class);
-        Root<?> root = query.from(entityClass);
-        query.select(cb.count(root));
-
-        Long count = entityManager.createQuery(query).getSingleResult();
-        return count;
-    }
-
-    public Long getGeneratedId() {
-        return generateId(division.getClass()) + generateId(responsible.getClass()) + generateId(admin.getClass()) + generateId(secretary.getClass()) + 1;
-    }*/
 }

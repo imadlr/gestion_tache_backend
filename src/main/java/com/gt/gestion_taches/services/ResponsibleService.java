@@ -5,9 +5,11 @@ import com.gt.gestion_taches.entities.Responsible;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
 
+import java.util.List;
+
 public interface ResponsibleService {
 
-    PageResponsibleDTO getByCniContains(String keyword, int page, int size);
+    List<ResponsibleDTO> getByCniContains(String keyword);
 
     ResponsibleDTO saveResponsible(ResponsibleDTO responsibleDTO) throws UserNameExistsException;
 
