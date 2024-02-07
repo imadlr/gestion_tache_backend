@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -66,8 +67,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void finishedTask(Long taskId) {
-        Task task = taskRepository.findById(taskId).orElse(null);
+    public void finishedTask(Map<String,Long> request) {
+        Task task = taskRepository.findById(request.get("taskId")).orElse(null);
         task.setState(TaskState.TERMINEE);
         taskRepository.save(task);
     }

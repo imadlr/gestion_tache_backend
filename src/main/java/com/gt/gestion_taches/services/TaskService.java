@@ -7,6 +7,7 @@ import com.gt.gestion_taches.exceptions.SaveTaskException;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TaskService {
     List<TaskDTO> getTasksByState(TaskState state);
@@ -21,7 +22,7 @@ public interface TaskService {
 
     void deleteTask(Long taskId);
 
-    void finishedTask(Long taskId);
+    void finishedTask(Map<String,Long> request);
 
     List<CountTaskByStateDTO> getCountOfTasksByState();
 }

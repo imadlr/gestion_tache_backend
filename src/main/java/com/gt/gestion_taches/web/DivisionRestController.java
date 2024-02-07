@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/division")
@@ -42,8 +43,9 @@ public class DivisionRestController {
         return taskService.getByDivisionIdAndStateAndObjectContains(divisionId, TaskState.EN_RETARD, keyword);
     }
 
-    @PutMapping("/finishedTask/{taskId}")
-    public void finishedTask(@PathVariable Long taskId) {
-        taskService.finishedTask(taskId);
+    @PutMapping("/finishedTask")
+    public void finishedTask(@RequestBody Map<String,Long> request) {
+        taskService.finishedTask(request);
     }
+
 }
