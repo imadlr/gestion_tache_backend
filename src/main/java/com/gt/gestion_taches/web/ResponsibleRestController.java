@@ -1,11 +1,10 @@
 package com.gt.gestion_taches.web;
 
-import com.gt.gestion_taches.dtos.AgendaDTO;
-import com.gt.gestion_taches.dtos.CountTaskByStateDTO;
-import com.gt.gestion_taches.dtos.TaskDTO;
+import com.gt.gestion_taches.dtos.*;
 import com.gt.gestion_taches.enums.TaskState;
 import com.gt.gestion_taches.exceptions.NoAgendaFoundException;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
+import com.gt.gestion_taches.services.ResponsibleService;
 import com.gt.gestion_taches.servicesImpl.AgendaServiceImpl;
 import com.gt.gestion_taches.servicesImpl.TaskServiceImpl;
 import lombok.AllArgsConstructor;
@@ -21,6 +20,12 @@ import java.util.List;
 public class ResponsibleRestController {
     private AgendaServiceImpl agendaService;
     private TaskServiceImpl taskService;
+    private ResponsibleService responsibleService;
+
+    @GetMapping("/getByUsername")
+    public ResponsibleDTO getResponsibleByUsername(@RequestParam String username) throws UserNotFoundException {
+        return responsibleService.getResponsibleDTO(username);
+    }
 
     @GetMapping("/countByState")
     public List<CountTaskByStateDTO> getCountOfTasksByState() {

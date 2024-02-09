@@ -18,4 +18,6 @@ public interface ResponsibleService {
     void deleteResponsible(Long responsibleId);
 
     Responsible getResponsible(Long responsibleId) throws UserNotFoundException;
+
+    ResponsibleDTO getResponsibleDTO(String username) throws UserNotFoundException;
 }

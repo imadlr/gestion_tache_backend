@@ -1,6 +1,7 @@
 package com.gt.gestion_taches.servicesImpl;
 
 import com.gt.gestion_taches.dtos.*;
+import com.gt.gestion_taches.entities.Division;
 import com.gt.gestion_taches.entities.Responsible;
 import com.gt.gestion_taches.entities.UserAccount;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
@@ -25,6 +26,18 @@ public class ResponsibleServiceImpl implements ResponsibleService {
     private UserAccountRepository userAccountRepository;
     private MapperServiceImpl mapper;
     private GenerateIdService generateIdService;
+
+    @Override
+    public ResponsibleDTO getResponsibleDTO(String username) throws UserNotFoundException {
+        UserAccount userAccount = userAccountRepository.findByUsername(username);
+        if (userAccount == null) throw new UserNotFoundException("User Not Found");
+        Responsible resp = responsibleRepository.findById(userAccount.getUser().getId()).orElse(null);
+        if (resp == null) {
+            throw new UserNotFoundException("User Not Found");
+        } else {
+            return mapper.fromResponsible(resp);
+        }
+    }
 
     @Override
     public List<ResponsibleDTO> getByCniContains(String keyword) {
