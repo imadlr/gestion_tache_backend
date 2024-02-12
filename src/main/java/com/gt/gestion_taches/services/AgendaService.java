@@ -6,6 +6,7 @@ import com.gt.gestion_taches.exceptions.saveAgendaException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface AgendaService {
     List<AgendaDTO> getByResponsibleIdAndDate(Long responsibleId, LocalDate date) throws UserNotFoundException;
@@ -18,5 +19,5 @@ public interface AgendaService {
 
     void deleteAgenda(Long agendaId);
 
-    void finishedAgenda(Long agendaId);
+    void finishedAgenda(Map<String,Long> request);
 }

@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Transactional
@@ -106,8 +107,8 @@ public class AgendaServiceImpl implements AgendaService {
     }
 
     @Override
-    public void finishedAgenda(Long agendaId) {
-        Agenda agenda = agendaRepository.findById(agendaId).orElse(null);
+    public void finishedAgenda(Map<String,Long> request) {
+        Agenda agenda = agendaRepository.findById(request.get("agendaId")).orElse(null);
         agenda.setState(AgendaState.TERMINEE);
         agendaRepository.save(agenda);
     }

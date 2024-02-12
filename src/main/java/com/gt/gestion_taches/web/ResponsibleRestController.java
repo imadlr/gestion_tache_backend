@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/resp")
@@ -36,7 +37,6 @@ public class ResponsibleRestController {
     public List<AgendaDTO> getAgendaByDay(@PathVariable Long responsibleId,
                                           @RequestParam(name = "jour", defaultValue = "") String jour) throws UserNotFoundException, NoAgendaFoundException {
         if (jour.isEmpty()) {
-            // Utiliser la date d'aujourd'hui comme valeur par défaut
             LocalDate dateAujourdhui = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE");
             jour = dateAujourdhui.format(formatter);
@@ -49,9 +49,9 @@ public class ResponsibleRestController {
         return agendaService.getByResponsibleIdAndDate(responsibleId, date);
     }
 
-    @PutMapping("/finishedAgenda/{agendaId}")
-    public void finishedAgenda(@PathVariable Long agendaId) {
-        agendaService.finishedAgenda(agendaId);
+    @PutMapping("/finishedAgenda")
+    public void finishedAgenda(@RequestBody Map<String,Long> request) {
+        agendaService.finishedAgenda(request);
     }
 
     @GetMapping("/completedTasks")
