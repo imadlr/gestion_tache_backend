@@ -94,4 +94,9 @@ public class DivisionServiceImpl implements DivisionService {
     public void deleteDivision(Long divisionId) {
         divisionRepository.deleteById(divisionId);
     }
+
+    @Override
+    public List<DivisionDTO> getDivisions() {
+        return divisionRepository.findAll().stream().map(division -> mapper.fromDivision(division)).toList();
+    }
 }

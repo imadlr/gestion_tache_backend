@@ -20,4 +20,6 @@ public interface DivisionService {
 
     void deleteDivision(Long divisionId);
 
+    List<DivisionDTO> getDivisions();
+
 }

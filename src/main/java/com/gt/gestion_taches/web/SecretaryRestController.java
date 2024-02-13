@@ -1,9 +1,10 @@
 package com.gt.gestion_taches.web;
 
-import com.gt.gestion_taches.dtos.AgendaDTO;
-import com.gt.gestion_taches.dtos.TaskDTO;
+import com.gt.gestion_taches.dtos.*;
 import com.gt.gestion_taches.enums.TaskState;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
+import com.gt.gestion_taches.services.DivisionService;
+import com.gt.gestion_taches.services.SecretaryService;
 import com.gt.gestion_taches.servicesImpl.AgendaServiceImpl;
 import com.gt.gestion_taches.servicesImpl.TaskServiceImpl;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,16 @@ import java.util.List;
 @RequestMapping(path = "/sec")
 @AllArgsConstructor
 public class SecretaryRestController {
+
     private TaskServiceImpl taskService;
     private AgendaServiceImpl agendaService;
+    private SecretaryService secretaryService;
+    private DivisionService divisionService;
+
+    @GetMapping("/getByUsername")
+    public SecretaryDTO getSecretaryByUsername(@RequestParam String username) throws UserNotFoundException {
+        return secretaryService.getSecretaryDTO(username);
+    }
 
     @GetMapping("/completedTasks")
     public List<TaskDTO> getCompletedTasks(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
@@ -66,6 +75,11 @@ public class SecretaryRestController {
     @DeleteMapping("/deleteAgenda/{agendaId}")
     public void deleteAgenda(@PathVariable Long agendaId) {
         agendaService.deleteAgenda(agendaId);
+    }
+
+    @GetMapping("/divisions")
+    public List<DivisionDTO> getDivisions() {
+        return divisionService.getDivisions();
     }
 
 }

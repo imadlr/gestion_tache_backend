@@ -1,9 +1,11 @@
 package com.gt.gestion_taches.servicesImpl;
 
 import com.gt.gestion_taches.dtos.*;
+import com.gt.gestion_taches.entities.Responsible;
 import com.gt.gestion_taches.entities.Secretary;
 import com.gt.gestion_taches.entities.UserAccount;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
+import com.gt.gestion_taches.exceptions.UserNotFoundException;
 import com.gt.gestion_taches.mappers.MapperServiceImpl;
 import com.gt.gestion_taches.repositories.SecretaryRepository;
 import com.gt.gestion_taches.repositories.UserAccountRepository;
@@ -69,5 +71,17 @@ public class SecretaryServiceImpl implements SecretaryService {
     @Override
     public void deleteSecretary(Long secretaryId) {
         secretaryRepository.deleteById(secretaryId);
+    }
+
+    @Override
+    public SecretaryDTO getSecretaryDTO(String username) throws UserNotFoundException {
+        UserAccount userAccount = userAccountRepository.findByUsername(username);
+        if (userAccount == null) throw new UserNotFoundException("User Not Found");
+        Secretary sec = secretaryRepository.findById(userAccount.getUser().getId()).orElse(null);
+        if (sec == null) {
+            throw new UserNotFoundException("User Not Found");
+        } else {
+            return mapper.fromSecretary(sec);
+        }
     }
 }

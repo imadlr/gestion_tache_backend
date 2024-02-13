@@ -48,6 +48,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskDTO saveTask(TaskDTO taskDTO) throws UserNotFoundException {
         Division division = divisionService.getDivision(taskDTO.getDivisionId());
         Task task = mapper.fromTaskDTO(taskDTO);
+        task.setState(TaskState.EN_ATTENTE);
         task.setDivision(division);
         return mapper.fromTask(taskRepository.save(task));
 
