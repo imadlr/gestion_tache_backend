@@ -20,4 +20,6 @@ public interface ResponsibleService {
     Responsible getResponsible(Long responsibleId) throws UserNotFoundException;
 
     ResponsibleDTO getResponsibleDTO(String username) throws UserNotFoundException;
+
+    List<ResponsibleDTO> getResponsibles();
 }

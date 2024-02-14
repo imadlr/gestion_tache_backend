@@ -4,12 +4,14 @@ import com.gt.gestion_taches.dtos.*;
 import com.gt.gestion_taches.enums.TaskState;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
 import com.gt.gestion_taches.services.DivisionService;
+import com.gt.gestion_taches.services.ResponsibleService;
 import com.gt.gestion_taches.services.SecretaryService;
 import com.gt.gestion_taches.servicesImpl.AgendaServiceImpl;
 import com.gt.gestion_taches.servicesImpl.TaskServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,6 +23,7 @@ public class SecretaryRestController {
     private AgendaServiceImpl agendaService;
     private SecretaryService secretaryService;
     private DivisionService divisionService;
+    private ResponsibleService responsibleService;
 
     @GetMapping("/getByUsername")
     public SecretaryDTO getSecretaryByUsername(@RequestParam String username) throws UserNotFoundException {
@@ -62,6 +65,11 @@ public class SecretaryRestController {
         return agendaService.getByResponsible(responsibleId);
     }
 
+    @GetMapping("/agendaByDate/{responsibleId}")
+    public List<AgendaDTO> getAgendaByDate(@PathVariable Long responsibleId, @RequestParam LocalDate date) throws UserNotFoundException {
+        return agendaService.getByResponsibleAndDate(responsibleId,date);
+    }
+
     @PostMapping("/saveAgenda")
     public AgendaDTO saveAgenda(@RequestBody AgendaDTO agendaDTO) throws UserNotFoundException {
         return agendaService.saveAgenda(agendaDTO);
@@ -80,6 +88,11 @@ public class SecretaryRestController {
     @GetMapping("/divisions")
     public List<DivisionDTO> getDivisions() {
         return divisionService.getDivisions();
+    }
+
+    @GetMapping("/responsibles")
+    public List<ResponsibleDTO> getResponsibles() {
+        return responsibleService.getResponsibles();
     }
 
 }

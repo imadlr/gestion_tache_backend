@@ -28,6 +28,7 @@ public class AgendaServiceImpl implements AgendaService {
     private AgendaRepository agendaRepository;
     private ResponsibleServiceImpl responsibleService;
     private MapperServiceImpl mapper;
+    private ResponsibleRepository responsibleRepository;
 
 
     @Override
@@ -107,9 +108,18 @@ public class AgendaServiceImpl implements AgendaService {
     }
 
     @Override
-    public void finishedAgenda(Map<String,Long> request) {
+    public void finishedAgenda(Map<String, Long> request) {
         Agenda agenda = agendaRepository.findById(request.get("agendaId")).orElse(null);
         agenda.setState(AgendaState.TERMINEE);
         agendaRepository.save(agenda);
+    }
+
+    @Override
+    public List<AgendaDTO> getByResponsibleAndDate(Long responsibleId, LocalDate date) throws UserNotFoundException {
+        Responsible responsible = responsibleRepository.findById(responsibleId).orElse(null);
+        if (responsible == null) throw new UserNotFoundException("Responsible Not Found");
+        return agendaRepository.findByResponsibleAndDate(responsible, date).stream().map(
+                agenda -> mapper.fromAgenda(agenda)
+        ).toList();
     }
 }

@@ -20,4 +20,7 @@ public interface AgendaService {
     void deleteAgenda(Long agendaId);
 
     void finishedAgenda(Map<String,Long> request);
+
+    List<AgendaDTO> getByResponsibleAndDate(Long responsibleId, LocalDate date) throws UserNotFoundException;
+
 }

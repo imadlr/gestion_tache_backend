@@ -22,6 +22,7 @@ import java.util.List;
 @Transactional
 @Service
 public class ResponsibleServiceImpl implements ResponsibleService {
+
     private ResponsibleRepository responsibleRepository;
     private UserAccountRepository userAccountRepository;
     private MapperServiceImpl mapper;
@@ -37,6 +38,11 @@ public class ResponsibleServiceImpl implements ResponsibleService {
         } else {
             return mapper.fromResponsible(resp);
         }
+    }
+
+    @Override
+    public List<ResponsibleDTO> getResponsibles() {
+        return responsibleRepository.findAll().stream().map(responsible -> mapper.fromResponsible(responsible)).toList();
     }
 
     @Override
