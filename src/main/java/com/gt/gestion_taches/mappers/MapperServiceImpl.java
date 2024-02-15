@@ -27,13 +27,6 @@ public class MapperServiceImpl {
         return adminDTO;
     }
 
-    public Admin fromAdminDTO(AdminDTO adminDTO) {
-        Admin admin = new Admin();
-        BeanUtils.copyProperties(adminDTO, admin);
-        admin.setUserAccount(fromUserAccountDTO(adminDTO.getUserAccountDTO()));
-        return admin;
-    }
-
     public DivisionDTO fromDivision(Division division) {
         DivisionDTO divisionDTO = new DivisionDTO();
         BeanUtils.copyProperties(division, divisionDTO);
@@ -93,6 +86,7 @@ public class MapperServiceImpl {
         TaskDTO taskDTO = new TaskDTO();
         BeanUtils.copyProperties(task, taskDTO);
         taskDTO.setDivisionId(task.getDivision().getId());
+        taskDTO.setNameDivision(task.getDivision().getNameDivision());
         return taskDTO;
     }
 

@@ -25,4 +25,6 @@ public interface TaskService {
     void finishedTask(Map<String,Long> request);
 
     List<CountTaskByStateDTO> getCountOfTasksByState();
+
+    void updateTaskState();
 }

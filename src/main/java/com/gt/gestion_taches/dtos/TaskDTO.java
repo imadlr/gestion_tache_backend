@@ -1,4 +1,5 @@
 package com.gt.gestion_taches.dtos;
+
 import com.gt.gestion_taches.enums.TaskState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,5 +16,6 @@ public class TaskDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private TaskState state;
+    private String nameDivision;
     private Long divisionId;
 }

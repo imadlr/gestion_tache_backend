@@ -55,17 +55,13 @@ public class DivisionServiceImpl implements DivisionService {
 
     @Override
     public DivisionDTO saveDivision(DivisionDTO divisionDTO) throws UserNameExistsException {
-        UserAccount userAccount = mapper.fromUserAccountDTO(divisionDTO.getUserAccountDTO());
-        UserAccount checkUser = userAccountRepository.findByUsername(userAccount.getUsername());
+        UserAccount checkUser = userAccountRepository.findByUsername(divisionDTO.getUserAccountDTO().getUsername());
         if (checkUser != null) {
             throw new UserNameExistsException("Utilisateur Déja Existe");
         } else {
-            Division division = new Division();
+            Division division =mapper.fromDivisionDTO(divisionDTO);
+            UserAccount userAccount = division.getUserAccount();
             division.setId(generateIdService.getGeneratedId());
-            division.setNameDivision(divisionDTO.getNameDivision());
-            division.setFirstName(divisionDTO.getFirstName());
-            division.setLastName(divisionDTO.getLastName());
-            division.setCni(divisionDTO.getCni());
             Division savedDivision = divisionRepository.save(division);
             userAccount.setUser(savedDivision);
             userAccount.setRole("DIVISION");
@@ -76,12 +72,7 @@ public class DivisionServiceImpl implements DivisionService {
 
     @Override
     public DivisionDTO updateDivision(DivisionDTO divisionDTO) {
-        Division division = new Division();
-        division.setId(divisionDTO.getId());
-        division.setNameDivision(divisionDTO.getNameDivision());
-        division.setFirstName(divisionDTO.getFirstName());
-        division.setLastName(divisionDTO.getLastName());
-        division.setCni(divisionDTO.getCni());
+        Division division = mapper.fromDivisionDTO(divisionDTO);
         Division savedDivision = divisionRepository.save(division);
         UserAccount userAccount = mapper.fromUserAccountDTO(divisionDTO.getUserAccountDTO());
         userAccount.setUser(savedDivision);

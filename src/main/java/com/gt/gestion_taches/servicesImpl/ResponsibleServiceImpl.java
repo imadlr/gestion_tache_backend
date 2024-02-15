@@ -1,7 +1,6 @@
 package com.gt.gestion_taches.servicesImpl;
 
 import com.gt.gestion_taches.dtos.*;
-import com.gt.gestion_taches.entities.Division;
 import com.gt.gestion_taches.entities.Responsible;
 import com.gt.gestion_taches.entities.UserAccount;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
@@ -11,8 +10,6 @@ import com.gt.gestion_taches.repositories.ResponsibleRepository;
 import com.gt.gestion_taches.repositories.UserAccountRepository;
 import com.gt.gestion_taches.services.ResponsibleService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,16 +50,13 @@ public class ResponsibleServiceImpl implements ResponsibleService {
 
     @Override
     public ResponsibleDTO saveResponsible(ResponsibleDTO responsibleDTO) throws UserNameExistsException {
-        UserAccount userAccount = mapper.fromUserAccountDTO(responsibleDTO.getUserAccountDTO());
-        UserAccount checkUser = userAccountRepository.findByUsername(userAccount.getUsername());
+        UserAccount checkUser = userAccountRepository.findByUsername(responsibleDTO.getUserAccountDTO().getUsername());
         if (checkUser != null) {
             throw new UserNameExistsException("Utilisateur Déja Existe");
         } else {
-            Responsible responsible = new Responsible();
+            Responsible responsible = mapper.fromResponsibleDTO(responsibleDTO);
+            UserAccount userAccount = responsible.getUserAccount();
             responsible.setId(generateIdService.getGeneratedId());
-            responsible.setFirstName(responsibleDTO.getFirstName());
-            responsible.setLastName(responsibleDTO.getLastName());
-            responsible.setCni(responsibleDTO.getCni());
             Responsible savedResponsible = responsibleRepository.save(responsible);
             userAccount.setUser(savedResponsible);
             userAccount.setRole("RESPONSIBLE");
@@ -73,11 +67,7 @@ public class ResponsibleServiceImpl implements ResponsibleService {
 
     @Override
     public ResponsibleDTO updateResponsible(ResponsibleDTO responsibleDTO) {
-        Responsible responsible = new Responsible();
-        responsible.setId(responsibleDTO.getId());
-        responsible.setFirstName(responsibleDTO.getFirstName());
-        responsible.setLastName(responsibleDTO.getLastName());
-        responsible.setCni(responsibleDTO.getCni());
+        Responsible responsible = mapper.fromResponsibleDTO(responsibleDTO);
         Responsible savedResponsible = responsibleRepository.save(responsible);
         UserAccount userAccount = mapper.fromUserAccountDTO(responsibleDTO.getUserAccountDTO());
         userAccount.setUser(savedResponsible);

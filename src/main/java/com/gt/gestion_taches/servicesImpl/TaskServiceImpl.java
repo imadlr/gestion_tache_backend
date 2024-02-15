@@ -10,10 +10,9 @@ import com.gt.gestion_taches.mappers.MapperServiceImpl;
 import com.gt.gestion_taches.repositories.TaskRepository;
 import com.gt.gestion_taches.services.TaskService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +85,20 @@ public class TaskServiceImpl implements TaskService {
         late.setState(TaskState.EN_RETARD);
         late.setCount(taskRepository.countTasksByState(TaskState.EN_RETARD));
         return List.of(completed, current, late);
+    }
+
+    @Override
+    public void updateTaskState() {
+        List<Task> tasks = taskRepository.findAll();
+        LocalDate today = LocalDate.now();
+
+        for (Task task : tasks) {
+            LocalDate endDate = task.getEndDate();
+            if (endDate != null && endDate.isBefore(today)) {
+                task.setState(TaskState.EN_RETARD);
+                taskRepository.save(task);
+            }
+        }
     }
 
 }

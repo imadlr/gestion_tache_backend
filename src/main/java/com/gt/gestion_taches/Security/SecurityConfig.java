@@ -56,8 +56,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(ar -> ar.requestMatchers("/resp/**").hasAuthority("RESPONSIBLE"))
                 .authorizeHttpRequests(ar -> ar.requestMatchers("/division/**").hasAuthority("DIVISION"))
                 .authorizeHttpRequests(ar -> ar.requestMatchers("/sec/**").hasAuthority("SECRETARY"))
-                //.formLogin()
-                //.httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

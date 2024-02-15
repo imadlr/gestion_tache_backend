@@ -17,4 +17,5 @@ public class Division extends User {
 
     @OneToMany(mappedBy = "division",cascade = CascadeType.ALL)
     private Collection<Task> tasks;
+
 }

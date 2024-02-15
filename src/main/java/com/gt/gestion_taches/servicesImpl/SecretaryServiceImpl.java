@@ -1,7 +1,6 @@
 package com.gt.gestion_taches.servicesImpl;
 
 import com.gt.gestion_taches.dtos.*;
-import com.gt.gestion_taches.entities.Responsible;
 import com.gt.gestion_taches.entities.Secretary;
 import com.gt.gestion_taches.entities.UserAccount;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
@@ -11,8 +10,6 @@ import com.gt.gestion_taches.repositories.SecretaryRepository;
 import com.gt.gestion_taches.repositories.UserAccountRepository;
 import com.gt.gestion_taches.services.SecretaryService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,17 +32,14 @@ public class SecretaryServiceImpl implements SecretaryService {
 
     @Override
     public SecretaryDTO saveSecretary(SecretaryDTO secretaryDTO) throws UserNameExistsException {
-        UserAccount userAccount = mapper.fromUserAccountDTO(secretaryDTO.getUserAccountDTO());
-        UserAccount checkUser = userAccountRepository.findByUsername(userAccount.getUsername());
+        UserAccount checkUser = userAccountRepository.findByUsername(secretaryDTO.getUserAccountDTO().getUsername());
         if (checkUser != null) {
             throw new UserNameExistsException("Utilisateur Déja Existe");
         } else {
-            Secretary secretary = new Secretary();
+            Secretary secretary = mapper.fromSecretaryDTO(secretaryDTO);
             secretary.setId(generateIdService.getGeneratedId());
-            secretary.setFirstName(secretaryDTO.getFirstName());
-            secretary.setLastName(secretaryDTO.getLastName());
-            secretary.setCni(secretaryDTO.getCni());
             Secretary savedSecretary = secretaryRepository.save(secretary);
+            UserAccount userAccount = mapper.fromUserAccountDTO(secretaryDTO.getUserAccountDTO());
             userAccount.setUser(savedSecretary);
             userAccount.setRole("SECRETARY");
             savedSecretary.setUserAccount(userAccountRepository.save(userAccount));
@@ -55,11 +49,7 @@ public class SecretaryServiceImpl implements SecretaryService {
 
     @Override
     public SecretaryDTO updateSecretary(SecretaryDTO secretaryDTO) {
-        Secretary secretary = new Secretary();
-        secretary.setId(secretaryDTO.getId());
-        secretary.setFirstName(secretaryDTO.getFirstName());
-        secretary.setLastName(secretaryDTO.getLastName());
-        secretary.setCni(secretaryDTO.getCni());
+        Secretary secretary = mapper.fromSecretaryDTO(secretaryDTO);
         Secretary savedSecretary = secretaryRepository.save(secretary);
         UserAccount userAccount = mapper.fromUserAccountDTO(secretaryDTO.getUserAccountDTO());
         userAccount.setUser(savedSecretary);

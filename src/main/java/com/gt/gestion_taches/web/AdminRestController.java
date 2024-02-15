@@ -1,7 +1,6 @@
 package com.gt.gestion_taches.web;
 
 import com.gt.gestion_taches.dtos.*;
-import com.gt.gestion_taches.enums.TaskState;
 import com.gt.gestion_taches.exceptions.UserNameExistsException;
 import com.gt.gestion_taches.exceptions.UserNotFoundException;
 import com.gt.gestion_taches.services.AdminService;
@@ -19,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminRestController {
 
-    private TaskServiceImpl taskService;
     private DivisionServiceImpl divisionService;
     private ResponsibleServiceImpl responsibleService;
     private SecretaryServiceImpl secretaryService;
@@ -28,21 +26,6 @@ public class AdminRestController {
     @GetMapping("/getByUsername")
     public AdminDTO getAdminByUsername(@RequestParam String username) throws UserNotFoundException {
         return adminService.getAdminDTO(username);
-    }
-
-    @GetMapping("/currentTasks")
-    public List<TaskDTO> getCurrentTasks() {
-        return taskService.getTasksByState(TaskState.EN_ATTENTE);
-    }
-
-    @GetMapping("/completedTasks")
-    public List<TaskDTO> getCompletedTasks() {
-        return taskService.getTasksByState(TaskState.TERMINEE);
-    }
-
-    @GetMapping("/lateTasks")
-    public List<TaskDTO> getLateTasks() {
-        return taskService.getTasksByState(TaskState.EN_RETARD);
     }
 
     @GetMapping("/divisions")
